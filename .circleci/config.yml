@@ -64,7 +64,40 @@ jobs:
             npm run test
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-test
+          key: backend-test  
+  scan-frontend:
+    docker:
+      - image: cimg/node:15.0.1 
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-scan]
+      - run:
+          name: Audit frontend
+          command: |
+            cd frontend
+            npm install
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-scan
+  scan-backend:
+    docker:
+      - image: cimg/node:15.0.1 
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-scan]
+      - run:
+          name: Audit backend
+          command: |
+            cd backend
+            npm install
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-scan
+
 workflows:
   default:
     jobs:
@@ -74,3 +107,7 @@ workflows:
           requires: [build-backend]
       - test-frontend:
           requires: [build-frontend]
+      - scan-backend:
+          requires: [test-backend]
+      - scan-frontend:
+          requires: [test-frontend]
