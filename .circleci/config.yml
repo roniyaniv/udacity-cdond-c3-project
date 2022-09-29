@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-frontend:
     docker:
-      - image: cimg/node:15.0.1 
+      - image: circleci/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
           key: frontend-build
   build-backend:
     docker:
-      - image: cimg/node:15.0.1
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -35,7 +35,7 @@ jobs:
           key: backend-build
   test-frontend:
     docker:
-      - image: cimg/node:15.0.1 
+      - image: circleci/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
           key: frontend-test
   test-backend:
     docker:
-      - image: cimg/node:15.0.1 
+      - image: circleci/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
@@ -67,7 +67,7 @@ jobs:
           key: backend-test  
   scan-frontend:
     docker:
-      - image: cimg/node:15.0.1 
+      - image: circleci/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
@@ -85,7 +85,7 @@ jobs:
           key: frontend-scan
   scan-backend:
     docker:
-      - image: cimg/node:15.0.1 
+      - image: circleci/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
